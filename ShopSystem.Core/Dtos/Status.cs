@@ -11,5 +11,6 @@ namespace ShopSystem.Core.Dtos
         public int StatusCode { get; set; }
         public string Message { get; set; }
 
+
     }
 }

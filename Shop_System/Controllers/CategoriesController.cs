@@ -18,7 +18,6 @@ namespace Shop_System.Controllers
             _logger = logger;
         }
 
-        /// Retrieves all categories with pagination, sorting, and search.
         [HttpGet]
         public async Task<IActionResult> GetAllCategories([FromQuery] PaginationParameters paginationParameters, [FromQuery] QueryOptions queryOptions)
         {
@@ -35,7 +34,6 @@ namespace Shop_System.Controllers
         }
 
 
-        /// Retrieves a specific category by its ID.
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -56,7 +54,6 @@ namespace Shop_System.Controllers
             }
         }
 
-        /// Creates a new category.
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO categoryDto)
         {
@@ -77,7 +74,6 @@ namespace Shop_System.Controllers
             }
         }
 
-        /// Updates an existing category.
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryDTO categoryDto)
         {
@@ -103,7 +99,6 @@ namespace Shop_System.Controllers
             }
         }
 
-        // DELETE: api/categories/delete-multiple
         [HttpDelete("delete-multiple")]
         public async Task<IActionResult> DeleteMultipleCategories([FromForm] IEnumerable<int> ids)
         {

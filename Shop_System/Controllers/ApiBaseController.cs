@@ -7,5 +7,7 @@ namespace Shop_System.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
+
+
     }
 }

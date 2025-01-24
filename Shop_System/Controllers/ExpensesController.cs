@@ -19,7 +19,6 @@ namespace Shop_System.Controllers
             _logger = logger;
         }
 
-        // GET: api/expenses
         [HttpGet]
         public async Task<IActionResult> GetAllExpenses([FromQuery] PaginationParameters paginationParameters, [FromQuery] QueryOptions queryOptions)
         {
@@ -27,7 +26,6 @@ namespace Shop_System.Controllers
             return Ok(new ContentContainer<PagedResult<ExpenseDTO>>(result, "Expenses retrieved successfully."));
         }
 
-        // GET: api/expenses/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetExpenseById(int id)
         {

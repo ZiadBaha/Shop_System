@@ -70,7 +70,9 @@ namespace ShopSystem.Repository.Reposatories.Programe
                     Amount = p.Amount,
                     Date = p.Date,
                     Info = p.Info,
-                    CustomerName = p.Customer.Name // Map Customer Name
+                    CustomerName = p.Customer.Name,
+                    CustomerId = p.Customer.Id,
+
                 }).ToList();
 
                 return new PagedResult<GetPaymentDTO>

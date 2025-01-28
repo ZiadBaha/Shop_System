@@ -269,3 +269,7 @@ This document provides an overview of the NuGet packages utilized in the Shop Sy
 | Microsoft.AspNetCore.Authentication.JwtBearer       | 8.0.11   | Enables token-based authentication using JWT.                          |
 | Microsoft.Extensions.Configuration.Abstractions     | 8.0.0    | Provides abstractions for managing app configurations.                 |
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c

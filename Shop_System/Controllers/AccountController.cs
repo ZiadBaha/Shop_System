@@ -29,7 +29,10 @@ namespace Shop_System.Controllers
             _logger = logger;
 
         }
+<<<<<<< HEAD
         // test 
+=======
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
 
 
         [HttpPost("login")]

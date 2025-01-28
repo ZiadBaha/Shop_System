@@ -18,6 +18,10 @@ namespace Shop_System.Controllers
             _logger = logger;
         }
 
+<<<<<<< HEAD
+=======
+        /// Retrieves all categories with pagination, sorting, and search.
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
         [HttpGet]
         public async Task<IActionResult> GetAllCategories([FromQuery] PaginationParameters paginationParameters, [FromQuery] QueryOptions queryOptions)
         {
@@ -34,6 +38,10 @@ namespace Shop_System.Controllers
         }
 
 
+<<<<<<< HEAD
+=======
+        /// Retrieves a specific category by its ID.
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -54,6 +62,10 @@ namespace Shop_System.Controllers
             }
         }
 
+<<<<<<< HEAD
+=======
+        /// Creates a new category.
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO categoryDto)
         {
@@ -74,6 +86,10 @@ namespace Shop_System.Controllers
             }
         }
 
+<<<<<<< HEAD
+=======
+        /// Updates an existing category.
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryDTO categoryDto)
         {
@@ -99,6 +115,10 @@ namespace Shop_System.Controllers
             }
         }
 
+<<<<<<< HEAD
+=======
+        // DELETE: api/categories/delete-multiple
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
         [HttpDelete("delete-multiple")]
         public async Task<IActionResult> DeleteMultipleCategories([FromForm] IEnumerable<int> ids)
         {

@@ -196,7 +196,10 @@ namespace ShopSystem.Repository.Reposatories
                         UserId = user.Id,
                         loginTime = user.LoginTime,
                         logoutTime = user.LogoutTime,
+<<<<<<< HEAD
                         username = user.UserName,
+=======
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
                         SessionDuration = sessionDuration.ToString(@"hh\:mm\:ss")
                     };
 
@@ -207,11 +210,17 @@ namespace ShopSystem.Repository.Reposatories
                     var userSessionData = new
                     {
                         UserId = user.Id,
+<<<<<<< HEAD
                         loginTime = user.LoginTime,
                         logoutTime = user.LogoutTime,
                         username = user.UserName,
                         SessionDuration = "N/A"
 
+=======
+                        LoginTime = user.LoginTime,
+                        LogoutTime = user.LogoutTime,
+                        SessionDuration = "N/A"
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
                     };
 
                     usersData.Add(userSessionData);
@@ -239,7 +248,10 @@ namespace ShopSystem.Repository.Reposatories
             {
                 query = query.Where(u => u.UserRole.ToString().Equals(queryOptions.Name, StringComparison.OrdinalIgnoreCase));
             }
+<<<<<<< HEAD
             
+=======
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
 
             query = queryOptions.SortField.ToLower() switch
             {
@@ -387,7 +399,10 @@ namespace ShopSystem.Repository.Reposatories
 
                 var queryWithProfit = query.Select(o => new OrderProfitDto
                 {
+<<<<<<< HEAD
                     CashierId=o.UserId,
+=======
+>>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
                     OrderId = o.Id,
                     OrderDate = o.OrderDate,
                     Profit = o.OrderItems.Sum(oi => (oi.Product.SellingPrice - oi.Product.PurchasePrice) * oi.Quantity)

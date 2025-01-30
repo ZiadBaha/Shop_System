@@ -7,10 +7,6 @@ namespace Shop_System.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
-<<<<<<< HEAD
 
-
-=======
->>>>>>> c494a203df9e1d58e56da61dbd02ac6c77ab300c
     }
 }

@@ -35,17 +35,15 @@ namespace ShopSystem.Repository.Reposatories.Programe
             try
             {
                 var query = _context.Products
-                    .Include(p => p.Category)  // Include Category to fetch category details
+                    .Include(p => p.Category)  
                     .AsQueryable();
 
-                // Apply searching
                 if (!string.IsNullOrEmpty(queryOptions.Search))
                 {
                     query = query.Where(p => p.Name.Contains(queryOptions.Search) ||
                                              p.UniqueNumber.Contains(queryOptions.Search));
                 }
 
-                // Apply filtering by MinPrice and MaxPrice if available
                 if (queryOptions.MinAmount.HasValue)
                 {
                     query = query.Where(p => p.PurchasePrice >= queryOptions.MinAmount.Value);
@@ -55,7 +53,6 @@ namespace ShopSystem.Repository.Reposatories.Programe
                     query = query.Where(p => p.PurchasePrice <= queryOptions.MaxAmount.Value);
                 }
 
-                // Apply sorting if the specified SortField exists on the Product entity
                 if (!string.IsNullOrEmpty(queryOptions.SortField))
                 {
                     var propertyInfo = typeof(Product).GetProperty(queryOptions.SortField);
@@ -71,16 +68,13 @@ namespace ShopSystem.Repository.Reposatories.Programe
                     }
                 }
 
-                // Get total count for pagination
                 var totalItems = await query.CountAsync();
 
-                // Apply pagination
                 var products = await query
                     .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
                     .Take(paginationParameters.PageSize)
                     .ToListAsync();
 
-                // Map the products to DTOs and include category information
                 var productDtos = products.Select(product => new GetProductsDTO
                 {
                     Id = product.Id,
@@ -129,7 +123,6 @@ namespace ShopSystem.Repository.Reposatories.Programe
 
                 var productDTO = _mapper.Map<GetProductsDTO>(product);  // Map product entity to DTO
 
-                // Manually map the category data
                 productDTO.Category = new CategoryDTO
                 {
                     Id = product.Category.Id,
@@ -145,46 +138,7 @@ namespace ShopSystem.Repository.Reposatories.Programe
             }
         }
 
-        //public async Task<List<Product>> CreateProductsAsync(IEnumerable<ProductDTO> productDtos)
-        //{
-        //    var products = new List<Product>();
-
-        //    foreach (var productDto in productDtos)
-        //    {
-        //        // Check if the category exists for each product
-        //        var categoryExists = await _context.Categories.AnyAsync(c => c.Id == productDto.CategoryId);
-        //        if (!categoryExists)
-        //        {
-        //            throw new KeyNotFoundException($"Category not found with the provided ID {productDto.CategoryId}.");
-        //        }
-
-        //        // Check for duplicate UniqueNumber
-        //        var isUniqueNumberExists = await _context.Products.AnyAsync(p => p.UniqueNumber == productDto.UniqueNumber);
-        //        if (isUniqueNumberExists)
-        //        {
-        //            throw new InvalidOperationException($"The UniqueNumber '{productDto.UniqueNumber}' is already in use.");
-        //        }
-
-        //        // Create and add each product to the list
-        //        var product = new Product
-        //        {
-        //            Name = productDto.Name,
-        //            Quantity = productDto.Quantity,
-        //            IsStock = productDto.IsStock.GetValueOrDefault(),
-        //            PurchasePrice = productDto.PurchasePrice,
-        //            SellingPrice = productDto.SellingPrice,
-        //            CategoryId = productDto.CategoryId,
-        //            UniqueNumber = productDto.UniqueNumber,
-        //            //Status = productDto.Status ?? ProductStatus.Active, // Default to Active if null
-        //        };
-        //        products.Add(product);
-        //    }
-
-        //    // Add the products to the database and save changes
-        //    _context.Products.AddRange(products);
-        //    await _context.SaveChangesAsync();
-        //    return products;
-        //}
+       
 
         public async Task<List<ProductDTO>> CreateProductsAsync(IEnumerable<ProductDTO> productDtos)
         {
@@ -192,36 +146,30 @@ namespace ShopSystem.Repository.Reposatories.Programe
 
             foreach (var productDto in productDtos)
             {
-                // Validate category existence
                 var categoryExists = await _context.Categories.AnyAsync(c => c.Id == productDto.CategoryId);
                 if (!categoryExists)
                 {
                     throw new KeyNotFoundException($"Category not found with the provided ID {productDto.CategoryId}.");
                 }
 
-                // Validate unique UniqueNumber
                 var isUniqueNumberExists = await _context.Products.AnyAsync(p => p.UniqueNumber == productDto.UniqueNumber);
                 if (isUniqueNumberExists)
                 {
                     throw new InvalidOperationException($"The UniqueNumber '{productDto.UniqueNumber}' is already in use.");
                 }
 
-                // Ensure SellingPrice > PurchasePrice
                 if (productDto.SellingPrice <= productDto.PurchasePrice)
                 {
                     throw new ArgumentException($"The SellingPrice must be greater than the PurchasePrice for the product '{productDto.Name}'.");
                 }
 
-                // Map ProductDTO to Product using AutoMapper
                 var product = _mapper.Map<Product>(productDto);
                 products.Add(product);
             }
 
-            // Add the products to the database and save changes
             _context.Products.AddRange(products);
             await _context.SaveChangesAsync();
 
-            // Map saved products back to ProductDTO using AutoMapper
             var createdProductDtos = _mapper.Map<List<ProductDTO>>(products);
 
             return createdProductDtos;
@@ -238,10 +186,10 @@ namespace ShopSystem.Repository.Reposatories.Programe
                 if (product == null)
                 {
                     _logger.LogWarning($"Product with ID {id} not found for update.");
-                    return null; // Or throw a custom exception if needed
+                    return null; 
                 }
 
-                _mapper.Map(productDto, product); // Update product properties with DTO
+                _mapper.Map(productDto, product); 
 
                 _context.Products.Update(product);
                 await _context.SaveChangesAsync();
@@ -251,7 +199,7 @@ namespace ShopSystem.Repository.Reposatories.Programe
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while updating the product with ID {id}.");
-                throw; // Rethrow the exception to be handled by the caller
+                throw; 
             }
         }
 
@@ -285,10 +233,8 @@ namespace ShopSystem.Repository.Reposatories.Programe
                     throw new KeyNotFoundException("Product not found.");
                 }
 
-                // Update the stock quantity
                 product.Quantity += quantityChange;
 
-                // Check if quantity is zero or less, set IsStock accordingly
                 product.IsStock = product.Quantity > 0;
 
                 _context.Products.Update(product);
@@ -297,7 +243,7 @@ namespace ShopSystem.Repository.Reposatories.Programe
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while updating the stock for product ID {productId}.");
-                throw; // Rethrow the exception to be handled by the caller
+                throw; 
             }
         }
 
@@ -306,15 +252,15 @@ namespace ShopSystem.Repository.Reposatories.Programe
             try
             {
                 var products = await _context.Products
-                    .Where(p => p.CategoryId == categoryId) // Assuming CategoryId exists
+                    .Where(p => p.CategoryId == categoryId) 
                     .ToListAsync();
 
-                return _mapper.Map<List<ProductDTO>>(products); // Map entities to DTOs
+                return _mapper.Map<List<ProductDTO>>(products); 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while fetching products for category ID {categoryId}.");
-                throw; // Rethrow the exception to be handled by the caller
+                throw; 
             }
         }
 
@@ -326,7 +272,7 @@ namespace ShopSystem.Repository.Reposatories.Programe
                 if (product == null)
                 {
                     _logger.LogWarning($"Product with ID {productId} not found.");
-                    return null; // Returning null if product not found
+                    return null; 
                 }
 
                 return product.Quantity;
@@ -334,8 +280,34 @@ namespace ShopSystem.Repository.Reposatories.Programe
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"An error occurred while fetching available stock for product ID {productId}.");
-                throw; // Rethrow the exception to be handled by the caller
+                throw; 
             }
         }
+
+        public async Task<ContentContainer<GetProductsDTO>> GetProductByUniqueNumberAsync(string uniqueNumber)
+        {
+            try
+            {
+                var product = await _context.Products
+                    .Include(p => p.Category)
+                    .FirstOrDefaultAsync(p => p.UniqueNumber == uniqueNumber);
+
+                if (product == null)
+                {
+                    _logger.LogWarning($"Product with UniqueNumber {uniqueNumber} not found.");
+                    return new ContentContainer<GetProductsDTO>(null, $"Product with UniqueNumber {uniqueNumber} not found.");
+                }
+
+                var productDTO = _mapper.Map<GetProductsDTO>(product);
+
+                return new ContentContainer<GetProductsDTO>(productDTO, "Product retrieved successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while fetching the product with UniqueNumber {uniqueNumber}.");
+                throw;
+            }
+        }
+
     }
 }

@@ -21,16 +21,6 @@ namespace Shop_System.Controllers
             _logger = logger;
         }
 
-        #region Get All Products 
-        //// GET: api/products
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllProducts([FromQuery] PaginationParameters paginationParameters)
-        //{
-        //    var products = await _productService.GetAllProductsAsync(paginationParameters);
-        //    return Ok(products);
-        //} 
-        #endregion
-
         // GET: api/products
         [HttpGet]
         public async Task<IActionResult> GetAllProducts([FromQuery] PaginationParameters paginationParameters, [FromQuery] QueryOptions queryOptions)
@@ -164,5 +154,18 @@ namespace Shop_System.Controllers
 
             return Ok(new ContentContainer<int?>(stock, "Stock retrieved successfully."));
         }
+
+
+        [HttpGet("unique/{uniqueNumber}")]
+        public async Task<IActionResult> GetProductByUniqueNumber(string uniqueNumber)
+        {
+            var result = await _productService.GetProductByUniqueNumberAsync(uniqueNumber);
+            if (result.Data == null)
+            {
+                return NotFound(result);
+            }
+            return Ok(result);
+        }
+
     }
 }

@@ -99,12 +99,12 @@ namespace Shop_System
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                        Path.Combine(builder.Environment.ContentRootPath, "Images")),
-                RequestPath = "/Resources"
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //            Path.Combine(builder.Environment.ContentRootPath, "Images")),
+            //    RequestPath = "/Resources"
+            //});
             app.UseCors();
 
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
